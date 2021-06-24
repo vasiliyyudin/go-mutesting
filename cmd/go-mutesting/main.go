@@ -464,12 +464,14 @@ func mutateExec(
 			pkgName += "/..."
 		}
 
+		fmt.Println("start go test")
 		goTestCmd := exec.Command("go", "test", "-timeout", fmt.Sprintf("%ds", opts.Exec.Timeout), pkgName)
 		goTestCmd.Env = os.Environ()
 
 		test, err := goTestCmd.CombinedOutput()
 		if err == nil {
 			execExitCode = 0
+			fmt.Println("there is panic 0")
 		} else if e, ok := err.(*exec.ExitError); ok {
 			fmt.Println("there is panic 2")
 			execExitCode = e.Sys().(syscall.WaitStatus).ExitStatus()
