@@ -471,9 +471,11 @@ func mutateExec(
 		if err == nil {
 			execExitCode = 0
 		} else if e, ok := err.(*exec.ExitError); ok {
+			fmt.Println("there is panic 2")
 			execExitCode = e.Sys().(syscall.WaitStatus).ExitStatus()
+			fmt.Println(execExitCode)
 		} else {
-			fmt.Println("Mutation did not compile")
+			fmt.Println("there is panic 1")
 			panic(err)
 		}
 
