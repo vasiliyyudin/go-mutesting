@@ -466,7 +466,12 @@ func mutateExec(
 
 		fmt.Println("start go test")
 		goTestCmd := exec.Command("go", "test", "-timeout", fmt.Sprintf("%ds", opts.Exec.Timeout), pkgName)
-		goTestCmd.Env = os.Environ()
+		envs := os.Environ()
+		envs = append(envs, "GO111MODULE=on")
+		envs = append(envs, "GOFLAGS=\"-mod=vendor\"")
+		envs = append(envs, "GOPRIVATE=\"go.avito.ru\"")
+		envs = append(envs, "GOPROXY=\"direct\"")
+		goTestCmd.Env = envs
 
 		test, err := goTestCmd.CombinedOutput()
 		if err == nil {
